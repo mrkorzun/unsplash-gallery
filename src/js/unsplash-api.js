@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// это халявные ключи ;)
 // сделать перебор ключей если по одному из ключей закончились лимиты
 // N2hFKxqELoV2Hd6dcIRJn1oRrjfp310WTtPLEXfMXjg
 // q1FZ3G3lUf_2UuiXCVry3Fo9yR8N-uicMlLcML8Lwj4
