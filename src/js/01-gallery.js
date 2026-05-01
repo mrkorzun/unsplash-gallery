@@ -29,6 +29,7 @@ const initGalleryByRandomPhotos = async () => {
 
 let page = 1;
 let userQuery = '';
+let galleryCardHeight = 0;
 
 const onLoadMoreBtnClick = async event => {
   try {
@@ -93,6 +94,9 @@ const onSearchFormSubmit = async event => {
     const galleryCardsTemplate = data.results.map(img => createGalleryCardTemplate(img)).join('');
 
     refs.galleryList.innerHTML = galleryCardsTemplate;
+
+    // узнаем высоту li для этого создали let = galleryCardHeight в глобальной области
+    galleryCardHeight = refs.galleryList.children[0].getBoundingClientRect();
   } catch (err) {
     console.log(err);
   } finally {
