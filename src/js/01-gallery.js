@@ -41,6 +41,11 @@ const onLoadMoreBtnClick = async event => {
 
     refs.galleryList.insertAdjacentHTML('beforeend', galleryCardsTemplate);
 
+    scrollBy({
+      top: galleryCardHeight * 2,
+      behavior: 'smooth',
+    });
+
     if (data.total_pages === page) {
       refs.loadMoreBtn.classList.add('is-hidden');
       refs.loadMoreBtn.removeEventListener('click', onLoadMoreBtnClick);
@@ -96,7 +101,8 @@ const onSearchFormSubmit = async event => {
     refs.galleryList.innerHTML = galleryCardsTemplate;
 
     // узнаем высоту li для этого создали let = galleryCardHeight в глобальной области
-    galleryCardHeight = refs.galleryList.children[0].getBoundingClientRect();
+    galleryCardHeight = refs.galleryList.children[0].getBoundingClientRect().height;
+    // console.log(galleryCardHeight);
   } catch (err) {
     console.log(err);
   } finally {
