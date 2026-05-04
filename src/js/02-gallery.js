@@ -25,7 +25,7 @@ const initGalleryByRandomPhotos = async () => {
   }
 };
 
-// initGalleryByRandomPhotos();
+initGalleryByRandomPhotos();
 
 const observerOptions = {
   root: null,

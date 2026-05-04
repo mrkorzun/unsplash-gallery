@@ -27,7 +27,7 @@ const initGalleryByRandomPhotos = async () => {
   }
 };
 
-// initGalleryByRandomPhotos();
+initGalleryByRandomPhotos();
 
 let userQuery = '';
 
