@@ -1,113 +1,276 @@
-# Vanilla App Template
+# Pagination Patterns Showcase: Load More, Infinite Scroll & Page Numbers
 
-Цей проект було створено за допомогою Vite. Для знайомства та налаштування
-додаткових можливостей [звернись до документації](https://vitejs.dev/).
+**🌐 Language:** **English** · [Українська](./README.ua.md) · [Русский](./README.ru.md) · [Español](./README.es.md) ·
+[العربية](./README.ar.md)
 
-## Створення репозиторію за шаблоном
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6%2B-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+![Vite](https://img.shields.io/badge/Vite-multi--page-646CFF?style=flat-square&logo=vite&logoColor=white)
+![Axios](https://img.shields.io/badge/Axios-5A29E4?style=flat-square&logo=axios&logoColor=white)
+![Unsplash API](https://img.shields.io/badge/Unsplash-API-000000?style=flat-square&logo=unsplash&logoColor=white)
+![IntersectionObserver](https://img.shields.io/badge/IntersectionObserver-Web_API-success?style=flat-square)
+![Prettier](https://img.shields.io/badge/Prettier-formatted-F7B93E?style=flat-square&logo=prettier&logoColor=black)
 
-Використовуй цей репозиторій організації GoIT як шаблон для створення
-репозиторію свого проекту. Для цього натисни на кнопку `«Use this template»` і
-обери опцію `«Create a new repository»`, як показано на зображенні.
+> A side-by-side comparison of **three real-world pagination strategies** — Load More, Infinite Scroll, and Page Numbers
+> — implemented against the Unsplash REST API. Each variant lives on its own page, sharing a common API and view layer,
+> so the differences are about **UX philosophy and trade-offs**, not boilerplate.
 
-![Creating repo from a template step 1](./assets/template-step-1.png)
+🔗 **Live demo:** [mrkorzun.github.io/unsplash-gallery](https://mrkorzun.github.io/unsplash-gallery/)
 
-На наступному етапі відкриється сторінка створення нового репозиторію. Заповни
-поле його імені, переконайся, що репозиторій публічний, після чого натисни
-кнопку `«Create repository from template»`.
+![Preview](./preview.jpg)
 
-![Creating repo from a template step 2](./assets/template-step-2.png)
+---
 
-Після того, як репозиторій буде створено, необхідно перейти в налаштування
-створеного репозиторію на вкладку `Settings` > `Actions` > `General` як показано
-на зображенні.
+## 🎯 What This Project Demonstrates
 
-![Settings GitHub Actions permissions step 1](./assets/gh-actions-perm-1.png)
+Pagination sounds boring until you have to choose one. This project picks three of the most common strategies in
+production apps, builds each one against a real API, and treats them as **a single learning surface**: when does each
+one feel right, what state do they need to track, and what UX edge cases do they hide?
 
-Проскроливши сторінку до самого кінця, в секції `«Workflow permissions»` обери
-опцію `«Read and write permissions»` і постав галочку в чекбоксі. Це необхідно
-для автоматизації процесу деплою проекту.
+| Page              | Strategy             | Real-world examples                | Key technique                             |
+| ----------------- | -------------------- | ---------------------------------- | ----------------------------------------- |
+| `01-gallery.html` | **Load More** button | Pixabay, Stack Overflow tag pages  | Manual user trigger, page counter         |
+| `02-gallery.html` | **Infinite Scroll**  | Twitter/X, Instagram feeds         | `IntersectionObserver` on a sentinel      |
+| `03-gallery.html` | **Page Numbers**     | Google Search, e-commerce catalogs | Direct page navigation, `totalPages` math |
 
-![Settings GitHub Actions permissions step 2](./assets/gh-actions-perm-2.png)
+This three-in-one structure is intentional — a recruiter or interviewer can ask "when would you use infinite scroll vs.
+page numbers?" and the project itself is the answer.
 
-Тепер у тебе є особистий репозиторій проекту, зі структурою файлів та папок
-репозиторію-шаблону. Далі працюй з ним, як з будь-яким іншим особистим
-репозиторієм, клонуй його собі на комп'ютер, пиши код, роби коміти та відправляй
-їх на GitHub.
+---
 
-## Підготовка до роботи
+## 💡 Skills & Competencies
 
-1. Переконайся, що на комп'ютері встановлено LTS-версію Node.js.
-   [Скачай та встанови](https://nodejs.org/en/) її якщо необхідно.
-2. Встанови базові залежності проекту в терміналі командою `npm install`.
-3. Запусти режим розробки, виконавши в терміналі команду `npm run dev`.
-4. Перейдіть у браузері за адресою
-   [http://localhost:5173](http://localhost:5173). Ця сторінка буде автоматично
-   перезавантажуватись після збереження змін у файли проекту.
+### 🔹 REST API Consumption — Unsplash
 
-## Файли і папки
+- Working with the **Unsplash API** — Access Key authentication, query parameters (`query`, `page`, `per_page`,
+  `orientation`).
+- Reading API documentation and matching request/response shapes to UI needs.
+- Handling `total_pages` for end-of-collection logic.
+- Defensive parsing of nested response structures (`response.data.results`).
 
-- Файли розмітки компонентів сторінки повинні лежати в папці `src/partials` та
-  імпортуватись до файлу `index.html`. Наприклад, файл з розміткою хедера
-  `header.html` створюємо у папці `partials` та імпортуємо в `index.html`.
-- Файли стилів повинні лежати в папці `src/css` та імпортуватись до HTML-файлів
-  сторінок. Наприклад, для `index.html` файл стилів називається `index.css`.
-- Зображення додавай до папки `src/img`. Збирач оптимізує їх, але тільки при
-  деплої продакшн версії проекту. Все це відбувається у хмарі, щоб не
-  навантажувати твій комп'ютер, тому що на слабких компʼютерах це може зайняти
-  багато часу.
+### 🔹 HTTP Client & Async Flow
 
-## Деплой
+- **Axios** as the HTTP layer with centralized request configuration.
+- **`async/await`** with `try/catch/finally` for clean lifecycle management.
+- Loader visibility tied to request boundaries — the UI never feels frozen.
 
-Продакшн версія проекту буде автоматично збиратися та деплоїтись на GitHub
-Pages, у гілку `gh-pages`, щоразу, коли оновлюється гілка `main`. Наприклад,
-після прямого пуша або прийнятого пул-реквесту. Для цього необхідно у файлі
-`package.json` змінити значення прапора `--base=/<REPO>/`, для команди `build`,
-замінивши `<REPO>` на назву свого репозиторію, та відправити зміни на GitHub.
+### 🔹 Three Pagination Strategies
 
-```json
-"build": "vite build --base=/<REPO>/",
+**Load More (page 01)**
+
+- User-controlled pacing via a button.
+- Page counter held in module-level state.
+- Reset on every new search to prevent stale offset bugs.
+- Smooth scroll on each load.
+
+**Infinite Scroll (page 02)**
+
+- **`IntersectionObserver`** watching a sentinel element below the gallery.
+- Auto-fetches the next page when the sentinel enters the viewport.
+- Observer is disconnected when the collection is exhausted — no wasted callbacks.
+- Loader remains visible only during in-flight requests.
+
+**Page Numbers (page 03)**
+
+- Classic numbered pagination with Previous / Next + numeric buttons.
+- Active page highlighted; first / last / current page logic handled explicitly.
+- Calculates `totalPages = Math.ceil(total / per_page)` and renders accordingly.
+- Direct page jumps — no "load through to page 7" required.
+
+### 🔹 Multi-Page Vite Application
+
+- Each pagination strategy is its own HTML entry point under `pages/`.
+- `vite.config.js` configured with multiple `rollupOptions.input` paths.
+- Shared modules imported across all three pages — write once, use thrice.
+
+### 🔹 Modular Architecture
+
+- Clear separation between **API layer**, **render layer**, and **page-specific controllers**.
+- Each page's JS is a thin orchestration script — the heavy lifting lives in shared modules.
+- ES Modules with explicit `import`/`export`, zero globals.
+
+### 🔹 UX Polish Across All Three Pages
+
+- **iziToast** for empty results, errors, and end-of-collection messaging.
+- **SimpleLightbox** for full-size preview with `lightbox.refresh()` after each render.
+- Search input validation with user feedback.
+- Loaders, smooth scrolling, disabled states.
+
+### 🔹 Build, Tooling & Deployment
+
+- **Vite** dev server with HMR and multi-page production build.
+- **GitHub Actions** workflow auto-builds and deploys to **GitHub Pages** on every push to `main`.
+- **Prettier** + **EditorConfig** for consistent formatting across team-style workflows.
+- **Git** with a clean, atomic commit history.
+
+---
+
+## 🧩 Feature Walkthrough
+
+### Strategy 1 — Load More
+
+The user controls when more data arrives. Best when the user might want to stop and read or compare items in place —
+pagination shouldn't yank the page out from under them.
+
+```js
+loadMoreBtn.addEventListener('click', async () => {
+  page += 1;
+  showLoader();
+  try {
+    const { results, total_pages } = await getImagesByQuery(query, page);
+    appendGallery(results);
+    smoothScrollByCardHeight();
+    if (page >= total_pages) {
+      hideLoadMoreButton();
+      iziToast.info({ message: "You've reached the end of search results." });
+    }
+  } finally {
+    hideLoader();
+  }
+});
 ```
 
-Далі необхідно зайти в налаштування GitHub-репозиторію (`Settings` > `Pages`) та
-виставити роздачу продакшн версії файлів з папки `/root` гілки `gh-pages`, якщо
-це не було зроблено автоматично.
+---
 
-![GitHub Pages settings](./assets/repo-settings.png)
+### Strategy 2 — Infinite Scroll (IntersectionObserver)
 
-### Статус деплою
+The most modern of the three. Instead of attaching to `window.scroll` and constantly recalculating offsets (the old,
+expensive way), an `IntersectionObserver` watches a small sentinel element placed after the gallery — the moment that
+sentinel enters the viewport, the next page is fetched.
 
-Статус деплою крайнього коміту відображається іконкою біля його ідентифікатора.
+This pattern is **performance-friendly, declarative, and cancellable** — disconnect the observer when there's nothing
+left to load, and you've cleanly ended the lifecycle.
 
-- **Жовтий колір** - виконується збірка та деплой проекту.
-- **Зелений колір** - деплой завершився успішно.
-- **Червоний колір** - під час лінтингу, збірки чи деплою сталася помилка.
+```js
+const sentinel = document.querySelector('.sentinel');
 
-Більш детальну інформацію про статус можна переглянути натиснувши на іконку, і в
-вікні, що випадає, перейти за посиланням `Details`.
+const observer = new IntersectionObserver(
+  async ([entry]) => {
+    if (!entry.isIntersecting) return;
 
-![Deployment status](./assets/deploy-status.png)
+    page += 1;
+    showLoader();
+    try {
+      const { results, total_pages } = await getImagesByQuery(query, page);
+      appendGallery(results);
+      if (page >= total_pages) {
+        observer.disconnect();
+        iziToast.info({ message: "You've reached the end of search results." });
+      }
+    } finally {
+      hideLoader();
+    }
+  },
+  { rootMargin: '300px' }
+);
 
-### Жива сторінка
+observer.observe(sentinel);
+```
 
-Через якийсь час, зазвичай кілька хвилин, живу сторінку можна буде подивитися за
-адресою, вказаною на вкладці `Settings` > `Pages` в налаштуваннях репозиторію.
-Наприклад, ось посилання на живу версію для цього репозиторію
+---
 
-[https://goitacademy.github.io/vanilla-app-template/](https://goitacademy.github.io/vanilla-app-template/).
+### Strategy 3 — Page Numbers
 
-Якщо відкриється порожня сторінка, переконайся, що у вкладці `Console` немає
-помилок пов'язаних з неправильними шляхами до CSS та JS файлів проекту
-(**404**). Швидше за все у тебе неправильне значення прапора `--base` для
-команди `build` у файлі `package.json`.
+The classic. Best when users need to **jump directly** to a specific page — catalogs, archives, search results where
+users bookmark or share specific pages. Requires more upfront math (`totalPages`), but delivers the most predictable
+navigation model.
 
-## Як це працює
+```js
+function renderPagination(currentPage, totalPages) {
+  paginationEl.innerHTML = '';
 
-![How it works](./assets/how-it-works.png)
+  // Previous
+  paginationEl.append(makeButton('‹', currentPage > 1, currentPage - 1));
 
-1. Після кожного пуша у гілку `main` GitHub-репозиторію, запускається
-   спеціальний скрипт (GitHub Action) із файлу `.github/workflows/deploy.yml`.
-2. Усі файли репозиторію копіюються на сервер, де проект ініціалізується та
-   проходить лінтинг та збірку перед деплоєм.
-3. Якщо всі кроки пройшли успішно, зібрана продакшн версія файлів проекту
-   відправляється у гілку `gh-pages`. В іншому випадку, у лозі виконання скрипта
-   буде вказано в чому проблема.
+  // Numeric buttons (with active state)
+  for (let i = 1; i <= totalPages; i += 1) {
+    const btn = makeButton(i, true, i);
+    if (i === currentPage) btn.classList.add('is-active');
+    paginationEl.append(btn);
+  }
+
+  // Next
+  paginationEl.append(makeButton('›', currentPage < totalPages, currentPage + 1));
+}
+
+paginationEl.addEventListener('click', async e => {
+  const targetPage = Number(e.target.dataset.page);
+  if (!targetPage || targetPage === page) return;
+
+  page = targetPage;
+  showLoader();
+  try {
+    const { results } = await getImagesByQuery(query, page);
+    replaceGallery(results);
+    renderPagination(page, totalPages);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } finally {
+    hideLoader();
+  }
+});
+```
+
+---
+
+## 🚀 Running Locally
+
+```bash
+git clone https://github.com/mrkorzun/unsplash-gallery.git
+cd unsplash-gallery
+npm install
+npm run dev
+```
+
+> **Note:** This project requires an Unsplash API access key. Register a free developer app at
+> [unsplash.com/developers](https://unsplash.com/developers) and add the key to a `.env` file as
+> `VITE_UNSPLASH_ACCESS_KEY=your_key_here`.
+
+The dev server will print a local URL (usually `http://localhost:5173`).
+
+### Production build & deploy
+
+```bash
+npm run build       # builds into ./dist
+npm run preview     # serves the production build locally
+```
+
+Pushing to `main` triggers the GitHub Actions workflow under `.github/workflows`, which builds and deploys to the
+`gh-pages` branch automatically.
+
+---
+
+## 📁 Project Structure
+
+```
+unsplash-gallery/
+├── .github/workflows/        # Auto-deploy to GitHub Pages
+├── src/
+│   ├── js/
+│   │   ├── unsplash-api.js       # API layer — Axios calls
+│   │   └── render-functions.js   # View layer — DOM, lightbox, gallery
+│   ├── css/
+│   ├── pages/
+│   │   ├── 01-gallery.html       # Load More
+│   │   ├── 02-gallery.html       # Infinite Scroll
+│   │   └── 03-gallery.html       # Page Numbers
+│   └── main.js                   # Landing page logic
+├── index.html                    # Navigation hub
+├── .editorconfig
+├── .prettierrc.json
+├── package.json
+├── vite.config.js                # Multi-page Vite configuration
+└── README.md
+```
+
+---
+
+## 👤 Author
+
+**Romario Korzun** — Front-End Developer
+
+- GitHub: [@mrkorzun](https://github.com/mrkorzun)
+- Portfolio: [mrkorzun.github.io](https://mrkorzun.github.io)
+
+---
+
+<sub>Originally built as a practical exercise within the **GoIT JavaScript** curriculum, expanding on earlier
+image-search projects to compare three pagination strategies side by side.</sub>
